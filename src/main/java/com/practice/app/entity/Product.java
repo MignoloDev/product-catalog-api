@@ -23,5 +23,9 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
+    @ManyToOne
+    @JoinColumn(name = "id_maker")
+    private Maker maker;
+
 }
 

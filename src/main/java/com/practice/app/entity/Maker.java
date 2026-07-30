@@ -21,4 +21,7 @@ public class Maker {
     @Column(nullable = false)
     private String name;
 
+    @OneToMany(mappedBy = "maker")
+    private List<Maker> products = new ArrayList<>();
+
 }
