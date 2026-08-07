@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/maker")
+@RequestMapping("/makers")
 public class MakerController {
 
     private final MakerService makerService;
