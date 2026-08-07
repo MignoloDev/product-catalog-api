@@ -31,6 +31,6 @@ public class Maker {
     private String phone;
 
     @OneToMany(mappedBy = "maker")
-    private List<Maker> products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
 }
