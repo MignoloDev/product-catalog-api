@@ -1,37 +1,53 @@
 package com.practice.app.maker;
 
-import com.practice.app.entity.Maker;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MakerServiceImpl implements MakerService{
+public class MakerServiceImpl implements MakerService {
 
     private final MakerRepository makerRepository;
+    private final MakerMapper makerMapper;
 
-    public MakerServiceImpl(MakerRepository makerRepository){
+    public MakerServiceImpl(MakerRepository makerRepository, MakerMapper makerMapper) {
         this.makerRepository = makerRepository;
+        this.makerMapper = makerMapper;
     }
 
     @Override
-    public List<Maker> findAll(){
-        return makerRepository.findAll();
+    public List<MakerResponseDTO> findAll() {
+        return makerRepository.findAll()
+                .stream()
+                .map(makerMapper::toResponseDTO)
+                .toList();
     }
 
     @Override
-    public Optional<Maker> findById(Long id){
-        return makerRepository.findById(id);
+    public Optional<MakerResponseDTO> findById(Long id) {
+        return makerRepository.findById(id)
+                .map(makerMapper::toResponseDTO);
     }
 
     @Override
-    public Maker save(Maker maker){
-        return makerRepository.save(maker);
+    public MakerResponseDTO save(MakerRequestDTO dto) {
+        Maker maker = makerMapper.toEntity(dto);
+        Maker saved = makerRepository.save(maker);
+        return makerMapper.toResponseDTO(saved);
     }
 
     @Override
-    public void deleteById(Long id){
+    public MakerResponseDTO update(Long id, MakerRequestDTO dto) {
+        Maker maker = makerMapper.toEntity(dto);
+        maker.setId(id);
+        Maker updated = makerRepository.save(maker);
+        return makerMapper.toResponseDTO(updated);
+    }
+
+    @Override
+    public void deleteById(Long id) {
         makerRepository.deleteById(id);
     }
+
 }

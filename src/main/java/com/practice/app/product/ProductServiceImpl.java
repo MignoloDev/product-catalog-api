@@ -1,37 +1,53 @@
 package com.practice.app.product;
 
-import com.practice.app.entity.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository){
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     @Override
-    public List<Product> findAll(){
-        return productRepository.findAll();
+    public List<ProductResponseDTO> findAll() {
+        return productRepository.findAll()
+                .stream()
+                .map(productMapper::toResponseDTO)
+                .toList();
     }
 
     @Override
-    public Optional<Product> findById(Long id){
-        return productRepository.findById(id);
+    public Optional<ProductResponseDTO> findById(Long id) {
+        return productRepository.findById(id)
+                .map(productMapper::toResponseDTO);
     }
 
     @Override
-    public Product save(Product product){
-        return productRepository.save(product);
+    public ProductResponseDTO save(ProductRequestDTO dto) {
+        Product product = productMapper.toEntity(dto);
+        Product saved = productRepository.save(product);
+        return productMapper.toResponseDTO(saved);
     }
 
     @Override
-    public void deleteById(Long id){
+    public ProductResponseDTO update(Long id, ProductRequestDTO dto) {
+        Product product = productMapper.toEntity(dto);
+        product.setId(id);
+        Product updated = productRepository.save(product);
+        return productMapper.toResponseDTO(updated);
+    }
+
+    @Override
+    public void deleteById(Long id) {
         productRepository.deleteById(id);
     }
+
 }

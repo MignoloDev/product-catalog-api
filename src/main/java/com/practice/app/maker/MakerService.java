@@ -1,19 +1,19 @@
 package com.practice.app.maker;
 
-import com.practice.app.entity.Maker;
-
 import java.util.List;
 import java.util.Optional;
 
 public interface MakerService {
 
-    List<Maker> findAll();
+    List<MakerResponseDTO> findAll();
 
-    Optional<Maker> findById(Long id);
+    Optional<MakerResponseDTO> findById(Long id);
 
-    Maker save(Maker maker);
+    MakerResponseDTO save(MakerRequestDTO dto);
+
+    MakerResponseDTO update(Long id, MakerRequestDTO dto);
 
     void deleteById(Long id);
-}
 
+}
 

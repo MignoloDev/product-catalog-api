@@ -1,6 +1,6 @@
 package com.practice.app.maker;
 
-import com.practice.app.entity.Maker;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,41 +13,36 @@ public class MakerController {
 
     private final MakerService makerService;
 
-    public MakerController(MakerService makerService){
+    public MakerController(MakerService makerService) {
         this.makerService = makerService;
     }
 
     @GetMapping
-    public List<Maker> findAll(){
+    public List<MakerResponseDTO> findAll() {
         return makerService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Maker> findById(@PathVariable Long id){
+    public ResponseEntity<MakerResponseDTO> findById(@PathVariable Long id) {
         return makerService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Maker> create(@RequestBody Maker maker){
-        Maker saved = makerService.save(maker);
+    public ResponseEntity<MakerResponseDTO> create(@Valid @RequestBody MakerRequestDTO dto) {
+        MakerResponseDTO saved = makerService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Maker> update(@PathVariable Long id, @RequestBody Maker maker){
-        return makerService.findById(id)
-                .map(existing->{
-                    maker.setId(id);
-                    Maker updated = makerService.save(maker);
-                    return ResponseEntity.ok(updated);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<MakerResponseDTO> update(@PathVariable Long id, @Valid @RequestBody MakerRequestDTO dto) {
+        MakerResponseDTO updated = makerService.update(id, dto);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id){
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         makerService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

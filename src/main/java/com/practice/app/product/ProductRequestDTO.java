@@ -11,7 +11,7 @@ public record ProductRequestDTO(
         String name,
 
         @NotNull(message = "Price is required")
-        @Positive(message = "Prince must be greater than zero")
+        @Positive(message = "Price must be greater than zero")
         BigDecimal price,
 
         @NotNull(message = "Maker ID is required")

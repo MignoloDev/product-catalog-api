@@ -1,17 +1,18 @@
 package com.practice.app.product;
 
-import com.practice.app.entity.Product;
-
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
 
-    List<Product> findAll();
+    List<ProductResponseDTO> findAll();
 
-    Optional<Product> findById(Long id);
+    Optional<ProductResponseDTO> findById(Long id);
 
-    Product save(Product product);
+    ProductResponseDTO save(ProductRequestDTO dto);
+
+    ProductResponseDTO update(Long id, ProductRequestDTO dto);
 
     void deleteById(Long id);
+
 }
