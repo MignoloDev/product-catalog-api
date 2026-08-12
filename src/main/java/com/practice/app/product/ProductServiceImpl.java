@@ -1,5 +1,6 @@
 package com.practice.app.product;
 
+import com.practice.app.entity.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
