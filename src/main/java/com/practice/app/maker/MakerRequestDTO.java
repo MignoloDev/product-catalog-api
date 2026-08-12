@@ -7,7 +7,7 @@ public record MakerRequestDTO(
         @NotBlank(message = "Name is required")
         String name,
 
-        @NotBlank(message = "Countr is required")
+        @NotBlank(message = "Country is required")
         String country,
 
         @NotBlank(message = "Email is required")
